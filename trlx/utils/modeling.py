@@ -10,14 +10,21 @@ import torch.nn.functional as F
 import transformers
 
 
+# def make_head(n_embd: int, out: int, dtype: type = torch.float32) -> nn.Sequential:
+#     """Returns a generic sequential MLP head."""
+#     return nn.Sequential(
+#         nn.Linear(n_embd, n_embd * 2, dtype=dtype),
+#         nn.ReLU(),
+#         nn.Linear(n_embd * 2, out, dtype=dtype),
+#     )
+
 def make_head(n_embd: int, out: int, dtype: type = torch.float32) -> nn.Sequential:
     """Returns a generic sequential MLP head."""
     return nn.Sequential(
-        nn.Linear(n_embd, n_embd * 2, dtype=dtype),
+        nn.Linear(n_embd, n_embd // 16, dtype=dtype),
         nn.ReLU(),
-        nn.Linear(n_embd * 2, out, dtype=dtype),
+        nn.Linear(n_embd // 16, out, dtype=dtype),
     )
-
 
 def freeze_bottom_causal_layers(model: transformers.PreTrainedModel, num_layers_unfrozen: int = 0):
     """Freezes the bottom transformer block layers of the specified model."""
