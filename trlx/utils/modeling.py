@@ -21,9 +21,9 @@ import transformers
 def make_head(n_embd: int, out: int, dtype: type = torch.float32) -> nn.Sequential:
     """Returns a generic sequential MLP head."""
     return nn.Sequential(
-        nn.Linear(n_embd, n_embd // 8, dtype=dtype),
+        nn.Linear(n_embd, 512, dtype=dtype),
         nn.ReLU(),
-        nn.Linear(n_embd // 8, out, dtype=dtype),
+        nn.Linear(512, out, dtype=dtype),
     )
 
 def freeze_bottom_causal_layers(model: transformers.PreTrainedModel, num_layers_unfrozen: int = 0):
